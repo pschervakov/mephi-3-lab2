@@ -1,3 +1,7 @@
+#ifndef LAB2_HASHTABLE
+#define LAB2_HASHTABLE
+
+
 #include <iostream>
 #include "DynamicArray.h"
 #include <string>
@@ -37,6 +41,7 @@ private:
     int getHasH(K);
 
     void resize(int);
+//    friend std::ostream& operator<<(std::ostream&, const IDictionary<K,V>&);
 
 public:
     class HashTableIterator {
@@ -52,12 +57,20 @@ public:
             idx = 0;
         }
 
+        bool hasNext() {
+            for (int i = idx; i < table_size; ++i) {
+                if (table->data[i].is_present) return true;
+            }
+            return false;
+
+        }
+
         Pair<K, V> next() {
             while (table->data[idx].is_present != true) {
+                if (idx >= table_size - 1) throw std::runtime_error("end of collection");
                 ++idx;
             }
             Pair<K, V> pair = Pair<K, V>{.key=table->data[idx].key, .value=table->data[idx].value};
-            cout << table->data[idx].key << table->data[idx].value << "\n";
             ++idx;
             return pair;
         }
@@ -67,22 +80,24 @@ public:
 
     explicit HashTable(int);
 
-    void add(K, V);
+    void add(K, V) override;
 
-    void remove(K);
+    void remove(K) override;
 
-    int getCapacity();
+    int getCapacity() override;
 
-    int getCount();
+    int getCount() override;
 
-    V &get(K);
+    V &get(K) override;
 
-    bool find(K);
+    bool find(K) override;
 
-    string toString();
+    string toString() override;
 
     HashTableIterator getIterator();
 
+    bool operator==(IDictionary<K, V>  &) override;
+    void print(ostream &strm) override;
 
 };
 
@@ -92,7 +107,7 @@ HashTable<K, V>::HashTable(int cap)
 
 template<class K, class V>
 int HashTable<K, V>::getHasH(K key) {
-    return sizeof(key);
+    return sizeof(key) % capacity;
 }
 
 template<class K, class V>
@@ -105,7 +120,7 @@ void HashTable<K, V>::add(K key, V value) {
     int i = 0;
     while (i < capacity and data[n].is_present) {
         if (data[n].key == key) {
-            throw runtime_error("element already exists");
+            break;
         }
         n = (n + 1) % capacity;
         ++i;
@@ -122,11 +137,12 @@ void HashTable<K, V>::remove(K key) {
         if (data[n].key == key and data[n].is_present) {
             data[n].is_present = false;
             --size;
-            break;
+            return ;
         }
         n = (n + 1) % capacity;
         ++i;
     }
+    throw std::runtime_error("element not found");
 }
 
 
@@ -134,7 +150,6 @@ template<class K, class V>
 V &HashTable<K, V>::get(K key) {
     int n = getHasH(key);
     int i = 0;
-    bool flag = false;
     while (i < capacity) {
         if (data[n].key == key and data[n].is_present) {
             return data[n].value;
@@ -192,10 +207,40 @@ typename HashTable<K, V>::HashTableIterator HashTable<K, V>::getIterator() {
     return HashTable::HashTableIterator(this);
 }
 
+template<class K, class V>
+bool HashTable<K, V>::operator==(IDictionary<K, V> &table) {
+    if (this->size != table.getCount() or this->capacity != table.getCapacity()) return false;
+    HashTable<K,V>::HashTableIterator iter = this->getIterator();
+    for (; iter.hasNext();) {
+        Pair<K, V> pair = iter.next();
+        K key = pair.key;
+        V value = pair.value;
+        if (not table.find(key) or table.get(key) != this->get(key)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<class K, class V>
+void HashTable<K, V>::print(ostream &strm) {
+    for (int i = 0; i < this->capacity; ++i){
+        if (this->data[i].is_present) {
+            strm << this->data[i].key <<":"<< this->data[i].value<<" ";
+        }
+    }
+}
+
+
+template<class K, class V>
+std::ostream &operator<<(ostream &strm, IDictionary<K, V> &table ) {
+    table.print(strm);
+    return strm;
+}
 
 
 
-
+#endif //LAB2_HASHTABLE
 
 
 

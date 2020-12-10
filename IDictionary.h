@@ -1,8 +1,8 @@
 #ifndef MEPHI_3_LAB2_IDICTIONARY_H
 #define MEPHI_3_LAB2_IDICTIONARY_H
-
+#include <iostream>
 #include "string"
-
+using namespace std;
 using std::string;
 
 template<class K, class V>
@@ -21,6 +21,10 @@ public:
     virtual int getCapacity() = 0;
 
     virtual string toString() = 0;
+
+    virtual bool operator==(IDictionary<K, V> &) = 0;
+
+    virtual void print(ostream &strm)=0;
 
 
 };

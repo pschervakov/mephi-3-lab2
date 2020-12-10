@@ -1,6 +1,6 @@
 #include <iostream>
 #include "string"
-#include "hash_table.h"
+#include "HashTable.h"
 #include "IDictionary.h"
 #include "DynamicArray.h"
 
@@ -12,9 +12,15 @@ private:
 public:
     ThinArray(DynamicArray<T> arr);
 
-    T &get(int);
+    T get(int);
 
-    T set(int, T);
+    void set(int, T);
+
+    void append(T);
+
+    int getSize();
+
+    string toString();
 
 };
 
@@ -31,7 +37,7 @@ ThinArray<T>::ThinArray(DynamicArray<T> arr) {
 }
 
 template<typename T>
-T &ThinArray<T>::get(int key) {
+T ThinArray<T>::get(int key) {
     if (dict->find(key)) {
         return dict->get(key);
     } else {
@@ -40,14 +46,38 @@ T &ThinArray<T>::get(int key) {
 }
 
 template<typename T>
-T ThinArray<T>::set(int key, T value) {
-    if (value==0){
-        if (dict->find(key)){
-            dict->remove(key);
+void ThinArray<T>::set(int key, T value) {
+    if (dict->find(key)) {
+        dict->remove(key);
+        if (value != 0) {
+            dict->add(key, value);
         }
-    } else{
-        dict->add(key,value);
+    } else {
+        dict->add(key, value);
     }
+}
+
+
+template<typename T>
+string ThinArray<T>::toString() {
+    string s;
+    for (int i = 0; i < size; ++i) {
+        s += std::to_string(this->get(i)) + ' ';
+    }
+    return s;
+}
+
+template<typename T>
+void ThinArray<T>::append(T value) {
+    if (value != 0) {
+        dict->add(size, value);
+    }
+    size += 1;
+}
+
+template<typename T>
+int ThinArray<T>::getSize() {
+    return this->size;
 }
 
 
