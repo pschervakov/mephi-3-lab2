@@ -1,6 +1,6 @@
 
 #include "iostream"
-#include "ThinArray.h"
+#include "SparseArray.h"
 #include "HashTable.h"
 #include "string.h"
 #include "DynamicArray.h"
@@ -17,7 +17,8 @@ void arrayMenu() {
     for (int i = 0; i < size; ++i) {
         cin >> arr[i];
     }
-    cout << ThinArray<int>(arr).toString();
+    SparseArray<int> a(arr);
+    cout<<a;
     cout<<endl;
 
 }
@@ -29,7 +30,7 @@ void alphaIndexMenu() {
     cin >> size;
     cout << "enter your string"<<endl;
     std::getline(std::cin, s);
-    cout << alpha(s, size, "word")->toString();
+    cout << alpha(s, size, "word");
     cout<<endl;
 };
 

@@ -1,7 +1,9 @@
 #ifndef MEPHI_3_LAB2_IDICTIONARY_H
 #define MEPHI_3_LAB2_IDICTIONARY_H
+
 #include <iostream>
 #include "string"
+
 using namespace std;
 using std::string;
 
@@ -12,7 +14,9 @@ public:
 
     virtual void remove(K) = 0;
 
-    virtual V &get(K) = 0;
+    virtual V &at(K) = 0;
+
+    virtual V get(K) = 0;
 
     virtual bool find(K) = 0;
 
@@ -20,11 +24,11 @@ public:
 
     virtual int getCapacity() = 0;
 
-    virtual string toString() = 0;
 
     virtual bool operator==(IDictionary<K, V> &) = 0;
 
-    virtual void print(ostream &strm)=0;
+
+    virtual void print(ostream &strm) = 0;
 
 
 };
