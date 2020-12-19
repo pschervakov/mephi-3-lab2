@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ЛР2</title>
+    <link rel="stylesheet" href="../static/styles/style.css">
+</head>
+<body>
+<h1>Alphabetical index</h1>
+<form method="POST" action="">
+    <label for="string">String</label>
+    <input id="string" type="text" name="str" placeholder="string">
+    <label for="size">Size</label>
+    <input id="size" type="text" name="size" placeholder="page size">
+    <label for="type">Size type</label>
+    <input id="type" type="text" name="type" placeholder="page size type">
+    <input type="submit" value="Send">
+</form>
+<div>
+    {% if table %}
+    <h1 id="table">{{table}}</h1>
+    {% endif %}
+</div>
+</body>
+</html>

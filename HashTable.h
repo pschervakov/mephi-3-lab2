@@ -63,7 +63,7 @@ public:
 
     V get(K) override;
 
-    V &operator[](const K);
+    V &operator[](K) override;
 
     bool find(K) override;
 
@@ -247,11 +247,13 @@ bool HashTable<K, V>::operator==(IDictionary<K, V> &table) {
 
 template<class K, class V>
 void HashTable<K, V>::print(ostream &strm) {
+    strm<<"{ ";
     for (int i = 0; i < this->capacity; ++i) {
         if (this->data[i].is_present) {
             strm << this->data[i].key << ":" << this->data[i].value << " ";
         }
     }
+    strm<<"}";
 }
 
 template<class K, class V>

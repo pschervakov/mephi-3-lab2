@@ -18,6 +18,8 @@ public:
 
     virtual V get(K) = 0;
 
+    virtual V &operator[](K) = 0;
+
     virtual bool find(K) = 0;
 
     virtual int getCount() = 0;

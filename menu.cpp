@@ -6,57 +6,33 @@
 #include "DynamicArray.h"
 #include "AlphabeticalIndex.h"
 //
-using std::cout, std::cin, std::endl, std::string;
+using namespace std;
+using std::cout, std::cin, std::endl;
 
-void arrayMenu() {
-    int size;
-    cout << "enter array size" << endl;
-    cin >> size;
-    DynamicArray<int> arr = DynamicArray<int>(size);
-    cout << "enter elements" << endl;
-    for (int i = 0; i < size; ++i) {
-        cin >> arr[i];
-    }
-    SparseArray<int> a(arr);
-    cout<<a;
-    cout<<endl;
-
-}
-
-void alphaIndexMenu() {
-    string s;
-    int size=4;
-    cout << "enter str size"<<endl;
-    cin >> size;
-    cout << "enter your string"<<endl;
-    std::getline(std::cin, s);
-    cout << alpha(s, size, "word");
-    cout<<endl;
-};
-
-void chooseOption() {
-    cout << "1. Array menu ";
-    cout << "2. Alphabetical index ";
-    cout<< "3. Exit";
-    cout << endl;
-}
-
-
-int main() {
-//    int choice;
-//    while (true) {
-//        chooseOption();
-//        cin >> choice;
-//        if (choice == 1) {
-//            arrayMenu();
-//        } else if (choice==2){
-//            alphaIndexMenu();
-//        } else break;
+//void arrayMenu() {
+//    int size;
+//    cout << "enter array size" << endl;
+//    cin >> size;
+//    DynamicArray<int> arr = DynamicArray<int>(size);
+//    cout << "enter elements" << endl;
+//    for (int i = 0; i < size; ++i) {
+//        cin >> arr[i];
 //    }
-    int choice;
-    cin>>choice;
-    string s;
-    std::getline(std::cin, s);
-    cout<<s;
+//    SparseArray<int> a(arr);
+//    cout<<a;
+//    cout<<endl;
+//
+//}
+
+
+
+
+
+int main(int argc, char * argv[]) {
+
+    string s=argv[2];
+    int size=std::atoi(argv[3]);
+    string type=argv[4];
+    cout << *alpha(s, size, type);
 
 }

@@ -27,6 +27,8 @@ public:
 
     T get(int);
 
+    T operator[](int);
+
     T &getRef(int);
 
     void set(int, T);
@@ -34,6 +36,8 @@ public:
     void append(T);
 
     int getSize();
+
+    ~SparseArray();
 
 
 };
@@ -51,6 +55,12 @@ SparseArray<T>::SparseArray(DynamicArray<T> arr) {
 }
 
 template<typename T>
+SparseArray<T>::~SparseArray() {
+    delete this->dict;
+}
+
+
+template<typename T>
 T SparseArray<T>::get(int key) {
     if (key < 0 or key > size) throw SparseArrayException("index out of range");
     if (dict->find(key)) {
@@ -59,8 +69,14 @@ T SparseArray<T>::get(int key) {
         return 0;
     }
 }
+
 template<typename T>
-T &SparseArray<T>::getRef(int key) {
+T SparseArray<T>::operator[](int key) {
+    return get(key);
+}
+
+template<typename T>
+T & SparseArray<T>::getRef(int key) {
     if (key < 0 or key > size) throw SparseArrayException("index out of range");
     if (dict->find(key)) {
         return dict->at(key);
@@ -72,11 +88,10 @@ T &SparseArray<T>::getRef(int key) {
 
 template<typename T>
 void SparseArray<T>::set(int key, T value) {
-    if (value!=0){
-        dict->add(key,value);
+    if (value != 0) {
+        dict->add(key, value);
     } else if (dict->find(key)) dict->remove(key);
 }
-
 
 
 template<typename T>
@@ -91,7 +106,6 @@ template<typename T>
 int SparseArray<T>::getSize() {
     return this->size;
 }
-
 
 
 template<class T>
